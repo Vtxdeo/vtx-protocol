@@ -1,6 +1,6 @@
 [package]
 name = "vtx-protocol"
-version = "1.2.3"
+version = "0.0.0"
 description = "The official WIT interface definitions for VTX plugins"
 license = "Apache-2.0"
 edition = "2021"
