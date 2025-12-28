@@ -36,7 +36,10 @@ check-packages: check-rust check-npm check-python
 
 check-rust:
 	@echo "[3/3] Checking Rust package..."
+	@mkdir -p packages/rust/wit
+	@cp wit/vtx.wit packages/rust/wit/
 	@cd packages/rust && cargo check --quiet
+	@rm -rf packages/rust/wit
 	@echo "  -> Rust package OK"
 
 check-npm:
@@ -72,3 +75,4 @@ clean:
 	@rm -rf target/
 	@rm -rf packages/python/dist packages/python/*.egg-info packages/python/vtx_protocol/wit
 	@rm -rf packages/npm/*.tgz
+	@rm -rf packages/rust/target packages/rust/wit

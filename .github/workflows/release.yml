@@ -26,6 +26,9 @@ jobs:
 
       - name: Build Rust Crate
         run: |
+          mkdir -p packages/rust/wit
+          cp wit/vtx.wit packages/rust/wit/
+          
           cd packages/rust
           cargo package --allow-dirty
 
