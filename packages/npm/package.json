@@ -1,6 +1,6 @@
 {
   "name": "@vtxdeo/protocol",
-  "version": "1.2.2",
+  "version": "1.2.6",
   "description": "WIT definitions for VTX plugins",
   "main": "index.js",
   "files": [

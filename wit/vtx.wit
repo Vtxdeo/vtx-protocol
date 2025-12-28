@@ -1,4 +1,4 @@
-package vtx:api@1.2.4;
+package vtx:api@1.2.6;
 
 /// --- SQL 接口定义 ---
 /// 提供基础 SQL 语句执行与 JSON 查询能力

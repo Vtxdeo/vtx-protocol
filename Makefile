@@ -62,7 +62,6 @@ install-tools:
 	@pip install build tomlkit
 	@echo "Dependencies installed."
 
-# 本地联调指令
 link-all:
 	@echo "Linking packages locally..."
 	@cd packages/npm && npm link
