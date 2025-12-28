@@ -1,0 +1,66 @@
+name: Release Protocol
+
+on:
+  push:
+    tags:
+      - "v*.*.*" # 匹配 v0.1.0
+
+permissions:
+  contents: read
+
+jobs:
+  publish-rust:
+    name: Publish to Crates.io
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Publish Crate
+        env:
+          CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
+        run: |
+          # 动态修改版本号以匹配 Git Tag (可选，或手动修改 Cargo.toml)
+          cd packages/rust
+          cargo publish --no-verify # no-verify 是为了跳过 git dirty 检查，因为我们引用了上层目录
+
+  publish-npm:
+    name: Publish to NPM
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          registry-url: 'https://registry.npmjs.org'
+      - name: Publish Package
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          cd packages/npm
+          # 复制 wit 文件到包目录 (对应 prepublishOnly 脚本)
+          npm install
+          npm publish --access public
+
+  publish-pypi:
+    name: Publish to PyPI
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      - name: Install Build Tools
+        run: pip install build twine
+      - name: Prepare Assets
+        run: |
+          # 将 wit 复制到 python 包内部以便打包
+          mkdir -p packages/python/vtx_protocol/wit
+          cp wit/vtx.wit packages/python/vtx_protocol/wit/
+      - name: Build and Publish
+        env:
+          TWINE_USERNAME: __token__
+          TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
+        run: |
+          cd packages/python
+          python -m build
+          python -m twine upload dist/*

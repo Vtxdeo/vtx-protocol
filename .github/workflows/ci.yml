@@ -1,0 +1,62 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  validate:
+    name: Validate Protocol (Make Check)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Source
+        uses: actions/checkout@v4
+
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Setup Node.js (for NPM check)
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Setup Python (for PyPI check)
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install wasm-tools
+        uses: bytecodealliance/actions/wasm-tools/setup@v1
+
+      - name: Cache Cargo Tools
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cargo/bin/
+            ~/.cargo/registry/index/
+            ~/.cargo/registry/cache/
+            ~/.cargo/git/db/
+          key: ${{ runner.os }}-cargo-tools-${{ hashFiles('**/Cargo.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-cargo-tools-
+
+      - name: Install wit-bindgen
+        run: |
+          if ! command -v wit-bindgen &> /dev/null; then
+            echo "Installing wit-bindgen-cli..."
+            cargo install wit-bindgen-cli
+          else
+            echo "wit-bindgen-cli already installed."
+          fi
+
+      - name: Install Python Build Tools
+        run: pip install build
+
+      - name: Run All Checks (Makefile)
+        run: make check

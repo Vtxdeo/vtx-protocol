@@ -1,0 +1,13 @@
+{
+  "name": "@vtx/protocol",
+  "version": "0.1.0",
+  "description": "WIT definitions for VTX plugins",
+  "main": "index.js",
+  "files": [
+    "index.js",
+    "wit/"
+  ],
+  "scripts": {
+    "prepublishOnly": "cp -r ../../wit ./"
+  }
+}

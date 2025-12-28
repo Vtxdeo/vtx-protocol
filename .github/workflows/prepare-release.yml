@@ -1,0 +1,63 @@
+name: Prepare Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Target Version (e.g., 1.2.0)'
+        required: true
+        type: string
+      dry_run:
+        description: 'Dry Run (Check only, do not push)'
+        required: false
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+jobs:
+  bump-and-tag:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.PAT_TOKEN }}
+
+      - name: Install Tools
+        run: |
+          sudo apt-get install -y jq sed
+
+      - name: Configure Git User
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Run Version Bump Script
+        run: |
+
+          NEW_VERSION="${{ inputs.version }}"
+          echo "Bumping to version $NEW_VERSION"
+
+          sed -i "s/^version = \".*\"/version = \"$NEW_VERSION\"/" packages/rust/Cargo.toml
+
+          tmp=$(mktemp)
+          jq --arg v "$NEW_VERSION" '.version = $v' packages/npm/package.json > "$tmp" && mv "$tmp" packages/npm/package.json
+
+          sed -i "s/^version = \".*\"/version = \"$NEW_VERSION\"/" packages/python/pyproject.toml
+          
+          # 4. Update WIT Definition
+          sed -i "s/package vtx:api@.*;/package vtx:api@$NEW_VERSION;/" wit/vtx.wit
+
+      - name: Commit and Tag
+        if: ${{ !inputs.dry_run }}
+        run: |
+          NEW_VERSION="${{ inputs.version }}"
+          
+          git add .
+          git commit -m "chore: release v$NEW_VERSION"
+          git tag "v$NEW_VERSION"
+          
+          git push origin main
+          git push origin "v$NEW_VERSION"
