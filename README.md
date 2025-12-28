@@ -11,7 +11,7 @@ The project enforces a strict unidirectional data flow. All interface changes or
 * `wit/` - The core interface definitions. **All modifications must originate here.**
 * `packages/` - Distribution wrappers for package managers.
     * `rust/` -> [Crates.io: vtx-protocol](https://crates.io/crates/vtx-protocol)
-    * `npm/` -> [NPM: @vtx/protocol](https://www.npmjs.com/package/@vtx/protocol)
+    * `npm/` -> [NPM: @vtxdeo/protocol](https://www.npmjs.com/package/@vtxdeo/protocol)
     * `python/` -> [PyPI: vtx-protocol](https://pypi.org/project/vtx-protocol/)
 
 ## Prerequisites
