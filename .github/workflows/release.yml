@@ -1,34 +1,69 @@
 name: Release Protocol
 
 on:
-  push:
-    tags:
-      - "v*.*.*"
-
-permissions:
-  contents: write
+  release:
+    types: [published]
 
 jobs:
-  release:
+  publish-rust:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
-      - name: Extract Version
-        id: ver
-        run: echo "version=${GITHUB_REF_NAME#v}" >> $GITHUB_OUTPUT
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@stable
 
-      - name: Inject Versions
-        run: |
-          VERSION=${{ steps.ver.outputs.version }}
-          sed -i "s/^version = .*/version = \"$VERSION\"/" packages/rust/Cargo.toml || true
-          sed -i "s/^version = .*/version = \"$VERSION\"/" packages/python/pyproject.toml || true
-          jq ".version=\"$VERSION\"" packages/npm/package.json > tmp && mv tmp packages/npm/package.json
+      - name: Publish to Crates.io
+        working-directory: packages/rust
+        env:
+          CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
+        run: cargo publish --token $CARGO_REGISTRY_TOKEN
 
-      - name: Build Artifacts
-        run: echo "构建步骤按需补充"
+  publish-npm:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
 
-      - name: Create GitHub Release
-        uses: softprops/action-gh-release@v2
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          generate_release_notes: true
+          node-version: "20"
+          registry-url: "https://registry.npmjs.org"
+
+      - name: Publish to NPM
+        working-directory: packages/npm
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          if [[ "$VERSION" == *"-"* ]]; then
+            npm publish --tag beta --access public
+          else
+            npm publish --access public
+          fi
+
+  publish-python:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+
+      - name: Install Build Tools
+        run: pip install build
+
+      - name: Build Wheel and Sdist
+        working-directory: packages/python
+        run: python3 -m build
+
+      - name: Publish to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          packages_dir: packages/python/dist/
+          password: ${{ secrets.PYPI_API_TOKEN }}
