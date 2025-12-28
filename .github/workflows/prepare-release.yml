@@ -20,37 +20,33 @@ jobs:
   bump-and-tag:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout Source Code
         uses: actions/checkout@v4
         with:
           token: ${{ secrets.PAT_TOKEN }}
 
-      - name: Install Tools
-        run: |
-          sudo apt-get install -y jq sed
+      - name: Setup Python Environment
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
 
-      - name: Configure Git User
+      - name: Install Script Dependencies
+        run: |
+          pip install -r scripts/requirements.txt
+
+      - name: Configure Git Identity
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-      - name: Run Version Bump Script
+      - name: Execute Version Bump Script
+        env:
+          NEW_VERSION: ${{ inputs.version }}
         run: |
-
-          NEW_VERSION="${{ inputs.version }}"
           echo "Bumping to version $NEW_VERSION"
+          python3 scripts/update_versions.py "$NEW_VERSION"
 
-          sed -i "s/^version = \".*\"/version = \"$NEW_VERSION\"/" packages/rust/Cargo.toml
-
-          tmp=$(mktemp)
-          jq --arg v "$NEW_VERSION" '.version = $v' packages/npm/package.json > "$tmp" && mv "$tmp" packages/npm/package.json
-
-          sed -i "s/^version = \".*\"/version = \"$NEW_VERSION\"/" packages/python/pyproject.toml
-          
-          # 4. Update WIT Definition
-          sed -i "s/package vtx:api@.*;/package vtx:api@$NEW_VERSION;/" wit/vtx.wit
-
-      - name: Commit and Tag
+      - name: Commit and Push Tag
         if: ${{ !inputs.dry_run }}
         run: |
           NEW_VERSION="${{ inputs.version }}"
@@ -58,6 +54,6 @@ jobs:
           git add .
           git commit -m "chore: release v$NEW_VERSION"
           git tag "v$NEW_VERSION"
-          
+
           git push origin main
           git push origin "v$NEW_VERSION"

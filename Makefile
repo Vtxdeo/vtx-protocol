@@ -1,4 +1,4 @@
-.PHONY: all check verify-wit verify-bindings check-packages install-tools clean help
+.PHONY: all check verify-wit verify-bindings check-packages install-tools clean help link-all
 
 all: check
 
@@ -9,6 +9,7 @@ help:
 	@echo "  make verify-bindings - Test binding generation"
 	@echo "  make check-packages  - Verify package structures"
 	@echo "  make install-tools   - Install development dependencies"
+	@echo "  make link-all        - Link packages locally for development"
 	@echo "  make clean           - Cleanup artifacts"
 
 check: verify-wit verify-bindings check-packages
@@ -17,7 +18,7 @@ verify-wit:
 	@echo "[1/3] Validating WIT syntax..."
 	@if ! command -v wasm-tools > /dev/null; then echo "Error: wasm-tools not found. Run 'make install-tools'"; exit 1; fi
 	@wasm-tools component wit wit/ > /dev/null
-	@echo "✅ WIT syntax is valid."
+	@echo "WIT syntax is valid."
 
 verify-bindings:
 	@echo "[2/3] Testing binding generation compatibility..."
@@ -29,7 +30,7 @@ verify-bindings:
 	@echo "  -> Testing C generator..."
 	@wit-bindgen c wit/ --out-dir target/gen-test/c
 
-	@echo "✅ Bindings generation successful."
+	@echo "Bindings generation successful."
 
 check-packages: check-rust check-npm check-python
 
@@ -45,11 +46,9 @@ check-npm:
 
 check-python:
 	@echo "[3/3] Checking Python package..."
-	@# Simulate build environment
 	@mkdir -p packages/python/vtx_protocol/wit
 	@cp wit/vtx.wit packages/python/vtx_protocol/wit/
 	@cd packages/python && python3 -m build --sdist > /dev/null 2>&1
-	@# Cleanup simulation artifacts
 	@rm -rf packages/python/dist packages/python/*.egg-info packages/python/vtx_protocol/wit
 	@echo "  -> Python package OK"
 
@@ -57,7 +56,16 @@ install-tools:
 	@echo "Installing dependencies..."
 	@if ! command -v wasm-tools > /dev/null; then cargo install wasm-tools; else echo "wasm-tools already installed"; fi
 	@if ! command -v wit-bindgen > /dev/null; then cargo install wit-bindgen-cli; else echo "wit-bindgen already installed"; fi
-	@pip install build
+	@pip install build tomlkit
+	@echo "Dependencies installed."
+
+# 本地联调指令
+link-all:
+	@echo "Linking packages locally..."
+	@cd packages/npm && npm link
+	@echo "  -> NPM package linked. Use 'npm link @vtx/protocol' in your app."
+	@cd packages/python && pip install -e .
+	@echo "  -> Python package installed in editable mode."
 
 clean:
 	@echo "Cleaning up..."
