@@ -24,19 +24,23 @@ jobs:
         with:
           node-version: "20"
 
+      - name: Prepare Staging Area
+        run: mkdir -p staging
+
       - name: Build Rust Crate
         run: |
           mkdir -p packages/rust/wit
           cp wit/vtx.wit packages/rust/wit/
           cd packages/rust
           cargo package --allow-dirty
+          cp target/package/*.crate ../../staging/
 
       - name: Build NPM Package
         run: |
           cd packages/npm
           npm install
           NPM_PACK_FILE=$(npm pack)
-          mv "$NPM_PACK_FILE" "vtx-protocol.tgz"
+          mv "$NPM_PACK_FILE" ../../staging/vtx-protocol.tgz
 
       - name: Build Python Package
         run: |
@@ -45,14 +49,13 @@ jobs:
           cp wit/vtx.wit packages/python/vtx_protocol/wit/
           cd packages/python
           python -m build
+          cp dist/* ../../staging/
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
         with:
           name: dist-assets
-          path: |
-            packages/npm/vtx-protocol.tgz
-            packages/python/dist/*
+          path: staging/*
           retention-days: 1
 
   publish-registry:
@@ -72,6 +75,9 @@ jobs:
         with:
           name: dist-assets
           path: dist-assets
+
+      - name: Debug Artifact Content
+        run: ls -R dist-assets/
 
       - name: Setup Toolchains
         uses: dtolnay/rust-toolchain@stable
@@ -95,7 +101,7 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
-          npm publish dist-assets/vtx-protocol.tgz --access public
+          npm publish ./dist-assets/vtx-protocol.tgz --access public
 
       - name: Publish to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
