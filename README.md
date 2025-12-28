@@ -103,4 +103,4 @@ Pushing the tag triggers the **"Release Protocol"** pipeline:
 
 ## License
 
-Apache-2.0
+[Apache-2.0](LICENSE)
