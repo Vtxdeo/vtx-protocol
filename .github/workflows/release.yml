@@ -16,23 +16,18 @@ jobs:
       - name: Checkout Source
         uses: actions/checkout@v4
 
-      - name: Setup Rust
+      - name: Setup Toolchains
         uses: dtolnay/rust-toolchain@stable
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          registry-url: 'https://registry.npmjs.org'
-      - name: Setup Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.10'
+          node-version: "20"
 
       - name: Build Rust Crate
         run: |
           mkdir -p packages/rust/wit
           cp wit/vtx.wit packages/rust/wit/
-          
           cd packages/rust
           cargo package --allow-dirty
 
@@ -40,14 +35,14 @@ jobs:
         run: |
           cd packages/npm
           npm install
-          npm pack
+          NPM_PACK_FILE=$(npm pack)
+          mv "$NPM_PACK_FILE" "vtx-protocol.tgz"
 
       - name: Build Python Package
         run: |
           pip install build
           mkdir -p packages/python/vtx_protocol/wit
           cp wit/vtx.wit packages/python/vtx_protocol/wit/
-          
           cd packages/python
           python -m build
 
@@ -56,7 +51,7 @@ jobs:
         with:
           name: dist-assets
           path: |
-            packages/npm/*.tgz
+            packages/npm/vtx-protocol.tgz
             packages/python/dist/*
           retention-days: 1
 
@@ -80,11 +75,12 @@ jobs:
 
       - name: Setup Toolchains
         uses: dtolnay/rust-toolchain@stable
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          registry-url: 'https://registry.npmjs.org'
+          node-version: "20"
+          registry-url: "https://registry.npmjs.org"
 
       - name: Publish to Crates.io
         env:
@@ -92,7 +88,6 @@ jobs:
         run: |
           mkdir -p packages/rust/wit
           cp wit/vtx.wit packages/rust/wit/
-          
           cd packages/rust
           cargo publish --no-verify
 
@@ -100,7 +95,7 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
-          npm publish dist-assets/*.tgz --access public
+          npm publish dist-assets/vtx-protocol.tgz --access public
 
       - name: Publish to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
