@@ -13,14 +13,18 @@ jobs:
     name: Build and Verify Artifacts
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout Source
+        uses: actions/checkout@v4
 
-      - uses: dtolnay/rust-toolchain@stable
-      - uses: actions/setup-node@v4
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@stable
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: '20'
           registry-url: 'https://registry.npmjs.org'
-      - uses: actions/setup-python@v4
+      - name: Setup Python
+        uses: actions/setup-python@v4
         with:
           python-version: '3.10'
 
@@ -47,11 +51,11 @@ jobs:
           cd packages/python
           python -m build
 
-      - uses: actions/upload-artifact@v4
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v4
         with:
           name: dist-assets
           path: |
-            packages/rust/target/package/*.crate
             packages/npm/*.tgz
             packages/python/dist/*
           retention-days: 1
@@ -65,27 +69,32 @@ jobs:
       contents: read
       id-token: write
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout Source
+        uses: actions/checkout@v4
 
-      - uses: actions/download-artifact@v4
+      - name: Download Artifacts
+        uses: actions/download-artifact@v4
         with:
           name: dist-assets
           path: dist-assets
 
-      - uses: dtolnay/rust-toolchain@stable
-      - uses: actions/setup-node@v4
+      - name: Setup Toolchains
+        uses: dtolnay/rust-toolchain@stable
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: '20'
           registry-url: 'https://registry.npmjs.org'
-      - uses: actions/setup-python@v4
-        with:
-          python-version: '3.10'
 
       - name: Publish to Crates.io
         env:
           CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
         run: |
-          cargo publish --file dist-assets/*.crate
+          mkdir -p packages/rust/wit
+          cp wit/vtx.wit packages/rust/wit/
+          
+          cd packages/rust
+          cargo publish --no-verify
 
       - name: Publish to NPM
         env:
