@@ -13,6 +13,15 @@ jobs:
       - name: Setup Rust
         uses: dtolnay/rust-toolchain@stable
 
+      - name: Inject Version into Rust & WIT
+        run: |
+          VERSION=${GITHUB_REF_NAME#v}
+          echo "Injecting version $VERSION into config files..."
+          sed -i "0,/^version = .*/s//version = \"$VERSION\"/" packages/rust/Cargo.toml
+          sed -i "s/package vtx:api@[0-9.]*;/package vtx:api@$VERSION;/" wit/vtx.wit
+          grep "version =" packages/rust/Cargo.toml
+          grep "package vtx:api" wit/vtx.wit
+
       - name: Prepare WIT files
         run: |
           mkdir -p packages/rust/wit
@@ -34,6 +43,13 @@ jobs:
         with:
           node-version: "20"
           registry-url: "https://registry.npmjs.org"
+
+      - name: Inject Version into NPM
+        working-directory: packages/npm
+        run: |
+          VERSION=${GITHUB_REF_NAME#v}
+          echo "Setting NPM version to $VERSION..."
+          npm version $VERSION --no-git-tag-version --allow-same-version
 
       - name: Publish to NPM
         working-directory: packages/npm
@@ -63,6 +79,16 @@ jobs:
       - name: Install Build Tools
         run: pip install build
 
+      - name: Inject Version into Python
+        working-directory: packages/python
+        run: |
+          VERSION=${GITHUB_REF_NAME#v}
+          echo "Injecting version $VERSION into pyproject.toml..."
+
+          sed -i "s/^version = .*/version = \"$VERSION\"/" pyproject.toml
+
+          grep "version =" pyproject.toml
+
       - name: Build Wheel and Sdist
         working-directory: packages/python
         run: python3 -m build
@@ -71,4 +97,3 @@ jobs:
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
           packages_dir: packages/python/dist/
-          password: ${{ secrets.PYPI_API_TOKEN }}
