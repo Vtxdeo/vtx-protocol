@@ -25,7 +25,6 @@ import { witPath, witDir } from '@vtx/protocol';
 
 console.log(witPath);
 // Output example: /Users/dev/project/node_modules/@vtx/protocol/wit/vtx.wit
-
 ```
 
 ### 2. Using with `jco` (CLI)
