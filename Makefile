@@ -44,14 +44,14 @@ check-rust:
 
 check-npm:
 	@echo "[3/3] Checking NPM package..."
+
 	@mkdir -p packages/npm/wit
 	@cp wit/vtx.wit packages/npm/wit/
 
 	@echo "  -> Generating TypeScript definitions..."
 	@cd packages/npm && npm install --silent && npm run build
-
 	@cd packages/npm && npm pack --dry-run > /dev/null
-	@echo "  -> NPM package OK"
+
 
 check-python:
 	@echo "[3/3] Checking Python package..."
