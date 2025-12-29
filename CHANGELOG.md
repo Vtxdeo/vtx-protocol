@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.0.1](https://github.com/Vtxdeo/vtx-protocol/compare/v2.0.0...v2.0.1) (2025-12-29)
+
+
+### Bug Fixes
+
+* Makefile ([e054df3](https://github.com/Vtxdeo/vtx-protocol/commit/e054df338ceebbbe27153112f27f1ee1e69b861c))
+* restore corrupted package.json and switch release-type to node ([bbffb0a](https://github.com/Vtxdeo/vtx-protocol/commit/bbffb0ab413f40d296ecf80b34b8fad7722a74b4))
+
 ## [2.0.0](https://github.com/Vtxdeo/vtx-protocol/compare/v1.2.6...v2.0.0) (2025-12-29)
 
 
