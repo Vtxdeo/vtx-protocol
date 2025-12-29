@@ -1,5 +1,19 @@
 # Changelog
 
+## [2.1.0](https://github.com/Vtxdeo/vtx-protocol/compare/v2.0.6...v2.1.0) (2025-12-29)
+
+
+### Features
+
+* upgrade protocol packages to auto-generating SDKs ([2652849](https://github.com/Vtxdeo/vtx-protocol/commit/265284930dcc138efefdbe097339912c21c8bbd4))
+* upgrade protocol packages to auto-generating SDKs ([1c6df19](https://github.com/Vtxdeo/vtx-protocol/commit/1c6df19692f3ac5a22398eccdd6db44e088780c5))
+
+
+### Bug Fixes
+
+* **ci:** add missing dependencies for sdk generation ([70b552b](https://github.com/Vtxdeo/vtx-protocol/commit/70b552bc3afef35dd9a22bd305c96b566d45b56f))
+* migrate binding generation to componentize-py ([5dcf04f](https://github.com/Vtxdeo/vtx-protocol/commit/5dcf04f57b1f9c13bc0ce7b5161541e4d595f1e8))
+
 ## [2.0.6](https://github.com/Vtxdeo/vtx-protocol/compare/v2.0.5...v2.0.6) (2025-12-29)
 
 
