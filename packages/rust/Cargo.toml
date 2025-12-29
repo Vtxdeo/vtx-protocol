@@ -8,3 +8,11 @@ include = ["src/**/*", "wit/**/*"]
 
 [lib]
 path = "src/lib.rs"
+
+[dependencies]
+wit-bindgen = { version = "0.25.0", default-features = false, optional = true }
+
+[features]
+default = ["guest"]
+guest = ["dep:wit-bindgen", "wit-bindgen/realloc", "wit-bindgen/macros"]
+host = ["dep:wit-bindgen"]

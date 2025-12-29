@@ -7,7 +7,7 @@ help:
 	@echo "  make check           - Run all verification steps"
 	@echo "  make verify-wit      - Validate WIT syntax"
 	@echo "  make verify-bindings - Test binding generation"
-	@echo "  make check-packages  - Verify package structures"
+	@echo "  make check-packages  - Verify package structures (and gen code)"
 	@echo "  make install-tools   - Install development dependencies"
 	@echo "  make link-all        - Link packages locally for development"
 	@echo "  make clean           - Cleanup artifacts"
@@ -44,15 +44,26 @@ check-rust:
 
 check-npm:
 	@echo "[3/3] Checking NPM package..."
-	@cd packages/npm && npm pack --dry-run > /dev/null 2>&1
+	@mkdir -p packages/npm/wit
+	@cp wit/vtx.wit packages/npm/wit/
+
+	@echo "  -> Generating TypeScript definitions..."
+	@cd packages/npm && npm install --silent && npm run build
+
+	@cd packages/npm && npm pack --dry-run > /dev/null
 	@echo "  -> NPM package OK"
 
 check-python:
 	@echo "[3/3] Checking Python package..."
 	@mkdir -p packages/python/vtx_protocol/wit
 	@cp wit/vtx.wit packages/python/vtx_protocol/wit/
+	@echo "  -> Generating Python bindings..."
+	@mkdir -p packages/python/vtx_protocol/generated
+	@wit-bindgen python wit/ --out-dir packages/python/vtx_protocol/generated
+	@touch packages/python/vtx_protocol/generated/__init__.py
+	@echo "  -> Building Python package..."
 	@cd packages/python && python3 -m build --sdist > /dev/null 2>&1
-	@rm -rf packages/python/dist packages/python/*.egg-info packages/python/vtx_protocol/wit
+	@rm -rf packages/python/dist packages/python/*.egg-info packages/python/vtx_protocol/wit packages/python/vtx_protocol/generated
 	@echo "  -> Python package OK"
 
 install-tools:
@@ -72,6 +83,6 @@ link-all:
 clean:
 	@echo "Cleaning up..."
 	@rm -rf target/
-	@rm -rf packages/python/dist packages/python/*.egg-info packages/python/vtx_protocol/wit
-	@rm -rf packages/npm/*.tgz
+	@rm -rf packages/python/dist packages/python/*.egg-info packages/python/vtx_protocol/wit packages/python/vtx_protocol/generated
+	@rm -rf packages/npm/*.tgz packages/npm/types packages/npm/wit packages/npm/node_modules
 	@rm -rf packages/rust/target packages/rust/wit
