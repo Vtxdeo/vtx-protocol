@@ -83,23 +83,22 @@ fix(stream): correct buffer offset type definition
 
 ## Release Process
 
-Releases are managed via GitHub Actions with a strict two-phase workflow to ensure atomicity across ecosystems.
+Releases are fully automated via [Release Please](https://github.com/googleapis/release-please), strictly following **Conventional Commits**.
 
-### 1. Prepare Release
+### 1. Automatic Release PR
+When you push commits to the `master` branch, the "Release Please" workflow analyzes your commit messages:
+* If it finds "fix" or "feat" commits that haven't been released, it automatically creates (or updates) a **Release PR**.
+* This PR includes the calculated version bump (e.g., v1.2.6 → v1.2.7) and an auto-generated `CHANGELOG.md`.
 
-Trigger the **"Prepare Release"** workflow manually in GitHub Actions.
+### 2. Publish
+To publish a new version:
+1. Review the auto-generated **Release PR**.
+2. **Merge** the PR into `master`.
+3. The merge triggers the tagging process, which subsequently kicks off the **"Release Protocol"** pipeline to:
+  * Build artifacts for Rust, NPM, and Python.
+  * Publish to Crates.io, NPM Registry, and PyPI simultaneously.
 
-* Input: Target Version (e.g., `1.2.0`)
-* Action: This workflow updates versions in `wit/vtx.wit`, `Cargo.toml`, `package.json`, and `pyproject.toml`, then pushes a new git tag.
-
-### 2. Automated Publishing
-
-Pushing the tag triggers the **"Release Protocol"** pipeline:
-
-1. **Build & Verify**: Concurrently builds artifacts for Rust (.crate), NPM (.tgz), and Python (.whl).
-2. **Publish**: Only if **ALL** builds pass verification, artifacts are uploaded to Crates.io, NPM Registry, and PyPI simultaneously.
-
-**Note**: Do not manually edit version numbers in package files. Always use the automation tools to maintain synchronization.
+> **Note**: Do not manually trigger workflows or edit version numbers. Just merge the Release PR.
 
 ## License
 
