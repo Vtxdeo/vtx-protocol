@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.0.3](https://github.com/Vtxdeo/vtx-protocol/compare/v2.0.2...v2.0.3) (2025-12-29)
+
+
+### Bug Fixes
+
+* release-please.yml ([1e04262](https://github.com/Vtxdeo/vtx-protocol/commit/1e04262c0e90505cb77efe59f0243dcd0996f383))
+* release-please.yml ([69077a1](https://github.com/Vtxdeo/vtx-protocol/commit/69077a1b433c992217c092477bab53064d7fcbbb))
+
 ## [2.0.2](https://github.com/Vtxdeo/vtx-protocol/compare/v2.0.1...v2.0.2) (2025-12-29)
 
 
