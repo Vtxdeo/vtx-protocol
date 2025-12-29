@@ -35,7 +35,8 @@ make install-tools
 
 ### 2. Local Development Link
 
-Link the local protocol packages to your global development environment. This allows you to test protocol changes against local VTX plugins or Host implementations without publishing to registries.
+Link the local protocol packages to your global development environment. 
+This allows you to test protocol changes against local VTX plugins or Host implementations without publishing to registries.
 
 ```bash
 make link-all
