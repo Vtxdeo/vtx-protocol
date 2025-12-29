@@ -44,25 +44,25 @@ check-rust:
 
 check-npm:
 	@echo "[3/3] Checking NPM package..."
-
 	@mkdir -p packages/npm/wit
 	@cp wit/vtx.wit packages/npm/wit/
-
 	@echo "  -> Generating TypeScript definitions..."
 	@cd packages/npm && npm install --silent && npm run build
 	@cd packages/npm && npm pack --dry-run > /dev/null
-
+	@echo "  -> NPM package OK"
 
 check-python:
 	@echo "[3/3] Checking Python package..."
 	@mkdir -p packages/python/vtx_protocol/wit
 	@cp wit/vtx.wit packages/python/vtx_protocol/wit/
 	@echo "  -> Generating Python bindings..."
+	@rm -rf packages/python/vtx_protocol/generated
 	@mkdir -p packages/python/vtx_protocol/generated
-	@wit-bindgen python wit/ --out-dir packages/python/vtx_protocol/generated
-	@touch packages/python/vtx_protocol/generated/__init__.py
+	@componentize-py --wit-path wit --world plugin bindings packages/python/vtx_protocol/generated
+
 	@echo "  -> Building Python package..."
 	@cd packages/python && python3 -m build --sdist > /dev/null 2>&1
+
 	@rm -rf packages/python/dist packages/python/*.egg-info packages/python/vtx_protocol/wit packages/python/vtx_protocol/generated
 	@echo "  -> Python package OK"
 
@@ -70,7 +70,7 @@ install-tools:
 	@echo "Installing dependencies..."
 	@if ! command -v wasm-tools > /dev/null; then cargo install wasm-tools; else echo "wasm-tools already installed"; fi
 	@if ! command -v wit-bindgen > /dev/null; then cargo install wit-bindgen-cli; else echo "wit-bindgen already installed"; fi
-	@pip install build tomlkit
+	@pip install build tomlkit componentize-py
 	@echo "Dependencies installed."
 
 link-all:

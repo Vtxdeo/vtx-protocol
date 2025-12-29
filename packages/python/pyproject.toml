@@ -8,9 +8,7 @@ version = "1.2.6"
 description = "WIT definitions and Python bindings for VTX plugins"
 readme = "README.md"
 requires-python = ">=3.10"
-dependencies = [
-    "wasmtime>=19.0.0"
-]
+dependencies = []
 
 [tool.setuptools.package-data]
-vtx_protocol = ["wit/*.wit", "generated/*.py"]
+vtx_protocol = ["wit/*.wit", "generated/**/*.py", "generated/*.py"]
