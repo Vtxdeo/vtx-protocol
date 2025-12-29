@@ -1,15 +1,19 @@
 {
-  "release-type": "simple",
-  "package-name": "vtx-protocol",
-  "include-component-in-tag": false,
-  "bump-minor-pre-major": true,
-  "bump-patch-for-minor-pre-major": true,
-  "version-file": "packages/npm/package.json",
-  "extra-files": [
-    "packages/rust/Cargo.toml",
-    "packages/python/pyproject.toml",
-    "wit/vtx.wit"
-  ],
+  "packages": {
+    ".": {
+      "release-type": "simple",
+      "package-name": "vtx-protocol",
+      "include-component-in-tag": false,
+      "bump-minor-pre-major": true,
+      "bump-patch-for-minor-pre-major": true,
+      "version-file": "packages/npm/package.json",
+      "extra-files": [
+        "packages/rust/Cargo.toml",
+        "packages/python/pyproject.toml",
+        "wit/vtx.wit"
+      ]
+    }
+  },
   "branches": [
     {
       "label": "prod",
