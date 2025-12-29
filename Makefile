@@ -44,7 +44,7 @@ check-rust:
 
 check-npm:
 	@echo "[3/3] Checking NPM package..."
-	@cd packages/npm && npm pack --dry-run > /dev/null 2>&1
+	@cd packages/npm && npm pack --dry-run
 	@echo "  -> NPM package OK"
 
 check-python:
