@@ -44,6 +44,10 @@ jobs:
           node-version: "20"
           registry-url: "https://registry.npmjs.org"
 
+      - name: Install Dependencies
+        working-directory: packages/npm
+        run: npm ci
+
       - name: Inject Version into NPM
         working-directory: packages/npm
         run: |
@@ -77,7 +81,7 @@ jobs:
           python-version: "3.10"
 
       - name: Install Build Tools
-        run: pip install build
+        run: pip install build componentize-py
 
       - name: Inject Version into Python
         working-directory: packages/python
@@ -88,6 +92,16 @@ jobs:
           sed -i "s/^version = .*/version = \"$VERSION\"/" pyproject.toml
 
           grep "version =" pyproject.toml
+
+      - name: Prepare Python Artifacts
+        run: |
+          echo "Preparing WIT files..."
+          mkdir -p packages/python/vtx_protocol/wit
+          cp wit/vtx.wit packages/python/vtx_protocol/wit/
+          
+          echo "Generating bindings..."
+          mkdir -p packages/python/vtx_protocol/generated
+          componentize-py --wit-path wit --world plugin bindings packages/python/vtx_protocol/generated
 
       - name: Build Wheel and Sdist
         working-directory: packages/python
