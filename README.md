@@ -25,7 +25,6 @@ Ensure the following tools are installed in your development environment:
 * **Wit Bindgen**: For binding generation testing (`wit-bindgen-cli`)
 
 ## Getting Started
-
 ### 1. Initialize Environment
 Install all required development dependencies and tools using the Makefile:
 
