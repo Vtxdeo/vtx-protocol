@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.5](https://github.com/Vtxdeo/vtx-protocol/compare/v2.0.4...v2.0.5) (2025-12-29)
+
+
+### Bug Fixes
+
+* README.md ([f23d463](https://github.com/Vtxdeo/vtx-protocol/commit/f23d46307c84747fabf0da4151b40f49f01ee788))
+
 ## [2.0.4](https://github.com/Vtxdeo/vtx-protocol/compare/v2.0.3...v2.0.4) (2025-12-29)
 
 
