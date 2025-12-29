@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.6](https://github.com/Vtxdeo/vtx-protocol/compare/v2.0.5...v2.0.6) (2025-12-29)
+
+
+### Bug Fixes
+
+* .github/workflows/release.yml ([298d8fa](https://github.com/Vtxdeo/vtx-protocol/commit/298d8fa4ea1751f2f0eae3c16d411cb6f515c197))
+
 ## [2.0.5](https://github.com/Vtxdeo/vtx-protocol/compare/v2.0.4...v2.0.5) (2025-12-29)
 
 
