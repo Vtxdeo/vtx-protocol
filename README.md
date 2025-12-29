@@ -30,7 +30,6 @@ Install all required development dependencies and tools using the Makefile:
 
 ```bash
 make install-tools
-
 ```
 
 ### 2. Local Development Link
