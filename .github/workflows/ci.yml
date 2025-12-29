@@ -56,7 +56,7 @@ jobs:
           fi
 
       - name: Install Python Build Tools
-        run: pip install build
+        run: pip install build componentize-py
 
       - name: Run All Checks (Makefile)
         run: make check
