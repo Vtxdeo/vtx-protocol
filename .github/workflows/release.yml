@@ -13,6 +13,11 @@ jobs:
       - name: Setup Rust
         uses: dtolnay/rust-toolchain@stable
 
+      - name: Prepare WIT files
+        run: |
+          mkdir -p packages/rust/wit
+          cp wit/vtx.wit packages/rust/wit/
+
       - name: Publish to Crates.io
         working-directory: packages/rust
         env:
