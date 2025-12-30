@@ -1,52 +1,28 @@
 # @vtxdeo/protocol
 
-[![npm version](https://img.shields.io/npm/v/@vtx/protocol.svg)](https://www.npmjs.com/package/@vtx/protocol)
+[![npm version](https://img.shields.io/npm/v/@vtxdeo/protocol.svg)](https://www.npmjs.com/package/@vtxdeo/protocol)
 
-**The Official SDK and Build Toolchain for VTX Plugins.**
+**Official WIT interface definitions for VTX Project.**
 
-This package provides the core WIT definitions, TypeScript types, and a CLI tool to compile your JavaScript code into VTX-compatible WebAssembly components.
+This package contains the raw `.wit` definitions used by the VTX ecosystem. It is intended for use by build tools, CLIs, and SDKs that need to reference the official protocol contract.
+
+> **Note**: This package does **not** contain the CLI tool or runtime bindings.
+> * To build plugins, use the **VTX CLI**.
+> * To write plugins, use the **VTX SDK**.
 
 ## Installation
 
 ```bash
-npm install @vtx/protocol --save
+npm install @vtxdeo/protocol --save-dev
 
 ```
 
 ## Usage
 
-### 1. Writing a Plugin (TypeScript/JavaScript)
-
-Imports are fully typed based on the protocol definition.
-
 ```javascript
-import { api } from '@vtx/protocol';
+const { witPath, witDir } = require('@vtxdeo/protocol');
 
-export const handle = (req) => {
-  return {
-    status: 200,
-    body: null
-  };
-};
-
-```
-
-### 2. Building the Plugin
-
-You don't need to manually configure `jco` or find the WIT files. Just use the built-in CLI:
-
-```bash
-# Compiles app.js -> plugin.wasm using the bundled protocol definition
-npx vtx-protocol build app.js -o my-plugin.wasm
-
-```
-
-### 3. Advanced: Accessing Paths
-
-If you need to integrate with other tools:
-
-```javascript
-import { witPath } from '@vtx/protocol';
-console.log(witPath);
+console.log(`Protocol definition is located at: ${witPath}`);
+// Output: .../node_modules/@vtxdeo/protocol/wit/vtx.wit
 
 ```

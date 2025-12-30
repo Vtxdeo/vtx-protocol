@@ -1,27 +1,19 @@
 {
   "name": "@vtxdeo/protocol",
   "version": "1.2.6",
-  "description": "WIT definitions, types, and build tools for VTX plugins",
+  "description": "WIT interface definitions for VTX plugins",
   "main": "index.js",
   "types": "index.d.ts",
-  "bin": {
-    "vtx-protocol": "./bin/cli.js"
-  },
   "files": [
     "index.js",
     "index.d.ts",
-    "bin/",
-    "wit/",
-    "types/"
+    "wit/"
   ],
   "scripts": {
-    "build": "npm run gen-types",
-    "gen-types": "jco types ./wit/vtx.wit -o ./types --name vtx-api",
-    "prepublishOnly": "npm run build && cp -r ../../wit ./"
+    "prepublishOnly": "cp -r ../../wit ./"
   },
   "dependencies": {
-    "@bytecodealliance/jco": "^1.0.0",
-    "commander": "^11.0.0"
+
   },
   "devDependencies": {
   }
