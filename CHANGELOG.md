@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.2.0](https://github.com/Vtxdeo/vtx-protocol/compare/v2.1.0...v2.2.0) (2025-12-30)
+
+
+### Features
+
+* make protocol package self-contained as an SDK (Protocol as Capability) ([ee8ae47](https://github.com/Vtxdeo/vtx-protocol/commit/ee8ae47f6cd6cdea027d0fb1f2c7a971f9b92b37))
+
 ## [2.1.0](https://github.com/Vtxdeo/vtx-protocol/compare/v2.0.6...v2.1.0) (2025-12-29)
 
 
