@@ -1,5 +1,13 @@
 # Changelog
 
+## [3.2.1](https://github.com/Vtxdeo/vtx-protocol/compare/v3.2.0...v3.2.1) (2025-12-30)
+
+
+### Bug Fixes
+
+* correct npm install command and add maven distribution config ([b6c1d30](https://github.com/Vtxdeo/vtx-protocol/commit/b6c1d305e71f154ac69d6257c3c2bdd16e691eaa))
+* **wit:** expose ffmpeg interface in plugin world ([ae2a908](https://github.com/Vtxdeo/vtx-protocol/commit/ae2a908006645441332a073ae83597f5519463f7))
+
 ## [3.2.0](https://github.com/Vtxdeo/vtx-protocol/compare/v3.1.0...v3.2.0) (2025-12-30)
 
 
