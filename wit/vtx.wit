@@ -76,6 +76,7 @@ world plugin {
 
     import stream-io;
     import sql;
+    import ffmpeg;
 
     export handle: func(req: http-request) -> http-response;
 
