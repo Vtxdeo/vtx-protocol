@@ -10,6 +10,7 @@
       "extra-files": [
         "packages/rust/Cargo.toml",
         "packages/python/pyproject.toml",
+        "packages/go/go.mod",
         "wit/vtx.wit"
       ]
     }

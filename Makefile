@@ -1,6 +1,6 @@
-.PHONY: all check verify-wit install-tools clean link-all
+.PHONY: all check verify-wit install-tools clean link-all copy-wit-go
 
-all: check
+all: copy-wit-go check
 
 help:
 	@echo "Available commands:"
@@ -10,6 +10,11 @@ help:
 	@echo "  make clean           - Cleanup artifacts"
 
 check: verify-wit
+
+copy-wit-go:
+	@echo "Syncing WIT to Go package..."
+	@mkdir -p packages/go/wit
+	@cp wit/vtx.wit packages/go/wit/vtx.wit
 
 verify-wit:
 	@echo "[1/1] Validating WIT syntax..."
@@ -28,6 +33,8 @@ link-all:
 	@echo "  -> NPM package linked."
 	@cd packages/python && pip install -e .
 	@echo "  -> Python package installed in editable mode."
+	@cd packages/go && go mod tidy
+	@echo "  -> Go module initialized."
 
 clean:
 	@echo "Cleaning up..."
@@ -35,3 +42,4 @@ clean:
 	@rm -rf packages/python/dist packages/python/*.egg-info
 	@rm -rf packages/npm/*.tgz packages/npm/node_modules
 	@rm -rf packages/rust/target
+	@rm -rf packages/go/wit
