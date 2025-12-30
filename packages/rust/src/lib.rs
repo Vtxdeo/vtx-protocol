@@ -12,7 +12,7 @@ pub fn get_wit_path() -> PathBuf {
 mod guest_bindings {
     wit_bindgen::generate!({
         world: "plugin",
-        path: "../wit",
+        path: "wit",
         ownership: Borrowing {
             duplicate_if_necessary: true
         }
