@@ -75,3 +75,14 @@ world plugin {
 
     export authenticate: func(headers: list<tuple<string, string>>) -> result<user-context, u16>;
 }
+
+interface ffmpeg {
+    use stream-io.{buffer};
+    record transcode-params {
+        profile: string,
+        input-id: string,
+        args: list<string>,
+    }
+
+    execute: func(params: transcode-params) -> result<resource<buffer>, string>;
+}
