@@ -1,5 +1,19 @@
 # Changelog
 
+## [3.0.0](https://github.com/Vtxdeo/vtx-protocol/compare/v2.2.1...v3.0.0) (2025-12-30)
+
+
+### ⚠ BREAKING CHANGES
+
+* The `vtx-protocol` packages no longer provide the `vtx-protocol` CLI tool or generated bindings.
+    * Build Logic: Migrated to `vtx-cli`.
+    * Runtime Bindings: Migrated to language-specific `vtx-sdk`.
+    * The Rust crate now only exposes `WIT_CONTENT` and path helpers.
+
+### Code Refactoring
+
+* purge build logic and transition to pure schema registry ([4dc3876](https://github.com/Vtxdeo/vtx-protocol/commit/4dc3876d2d067cea0cb7ce67a0932c19f813a6c4))
+
 ## [2.2.1](https://github.com/Vtxdeo/vtx-protocol/compare/v2.2.0...v2.2.1) (2025-12-30)
 
 
