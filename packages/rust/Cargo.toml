@@ -1,7 +1,7 @@
 [package]
 name = "vtx-protocol"
 version = "1.2.6"
-description = "The official WIT interface definitions for VTX plugins"
+description = "The official WIT interface definitions and SDK for VTX plugins"
 license = "Apache-2.0"
 edition = "2021"
 include = ["src/**/*", "wit/**/*"]
@@ -10,9 +10,10 @@ include = ["src/**/*", "wit/**/*"]
 path = "src/lib.rs"
 
 [dependencies]
-wit-bindgen = { version = "0.25.0", default-features = false, optional = true }
+wit-bindgen = { version = "0.25.0", default-features = false, features = ["realloc", "macros"], optional = true }
 
 [features]
 default = ["guest"]
-guest = ["dep:wit-bindgen", "wit-bindgen/realloc", "wit-bindgen/macros"]
+# guest 特性开启内置绑定生成能力
+guest = ["dep:wit-bindgen"]
 host = ["dep:wit-bindgen"]
