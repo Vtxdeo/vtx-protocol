@@ -58,6 +58,18 @@ interface types {
     }
 }
 
+interface ffmpeg {
+    use stream-io.{buffer};
+
+    record transcode-params {
+        profile: string,
+        input-id: string,
+        args: list<string>,
+    }
+
+    execute: func(params: transcode-params) -> result<buffer, string>;
+}
+
 world plugin {
     use types.{http-request, http-response, manifest};
     use auth-types.{user-context};
