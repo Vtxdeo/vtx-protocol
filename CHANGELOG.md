@@ -1,5 +1,17 @@
 # Changelog
 
+## [3.2.0](https://github.com/Vtxdeo/vtx-protocol/compare/v3.1.0...v3.2.0) (2025-12-30)
+
+
+### Features
+
+* **wit:** add ffmpeg interface for media transcoding ([d0e62d7](https://github.com/Vtxdeo/vtx-protocol/commit/d0e62d7623356fb497abb8a870b906612971eb57))
+
+
+### Bug Fixes
+
+* **wit:** correct ffmpeg return type to use buffer resource ([a24c46a](https://github.com/Vtxdeo/vtx-protocol/commit/a24c46ad51fc62c80dbff578576a13f3bccce912))
+
 ## [3.1.0](https://github.com/Vtxdeo/vtx-protocol/compare/v3.0.0...v3.1.0) (2025-12-30)
 
 
