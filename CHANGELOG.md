@@ -1,5 +1,13 @@
 # Changelog
 
+## [3.1.0](https://github.com/Vtxdeo/vtx-protocol/compare/v3.0.0...v3.1.0) (2025-12-30)
+
+
+### Features
+
+* initialize go protocol package ([44d591b](https://github.com/Vtxdeo/vtx-protocol/commit/44d591b9ce1e52ee55e0979b3330a224b2c060fe))
+* initialize java protocol package ([2212573](https://github.com/Vtxdeo/vtx-protocol/commit/221257347aa69863cb71f1b81bf777861de54bdc))
+
 ## [3.0.0](https://github.com/Vtxdeo/vtx-protocol/compare/v2.2.1...v3.0.0) (2025-12-30)
 
 
