@@ -1,5 +1,14 @@
 # Changelog
 
+## [2.2.1](https://github.com/Vtxdeo/vtx-protocol/compare/v2.2.0...v2.2.1) (2025-12-30)
+
+
+### Bug Fixes
+
+* **rust:** correct relative path resolution for internal bindgen ([ada9b46](https://github.com/Vtxdeo/vtx-protocol/commit/ada9b46166a062f58c0dae01cb4bed159cbeb353))
+* **rust:** correct relative path resolution for internal bindgen ([1c0c8d8](https://github.com/Vtxdeo/vtx-protocol/commit/1c0c8d899bd9fd9ef772029add392c22a0de34d3))
+* **rust:** make export macro and bindings module public ([3826218](https://github.com/Vtxdeo/vtx-protocol/commit/3826218c49a9f57f1595243c563a4e831decd9bf))
+
 ## [2.2.0](https://github.com/Vtxdeo/vtx-protocol/compare/v2.1.0...v2.2.0) (2025-12-30)
 
 
