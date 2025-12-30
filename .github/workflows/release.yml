@@ -46,7 +46,7 @@ jobs:
 
       - name: Install Dependencies
         working-directory: packages/npm
-        run: npm ci
+        run: npm install
 
       - name: Inject Version into NPM
         working-directory: packages/npm
