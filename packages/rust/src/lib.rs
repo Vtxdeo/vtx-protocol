@@ -9,10 +9,12 @@ pub fn get_wit_path() -> PathBuf {
 }
 
 #[cfg(feature = "guest")]
-mod guest_bindings {
+#[doc(hidden)]
+pub mod guest_bindings {
     wit_bindgen::generate!({
         world: "plugin",
         path: "wit",
+        pub_export_macro: true,
         ownership: Borrowing {
             duplicate_if_necessary: true
         }
@@ -36,8 +38,6 @@ pub mod exports {
     pub use super::guest_bindings::Guest;
 }
 
-#[cfg(feature = "guest")]
-pub use guest_bindings::export;
 
 #[cfg(feature = "guest")]
 pub use wit_bindgen;
