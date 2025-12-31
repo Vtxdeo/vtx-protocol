@@ -1,5 +1,13 @@
 # Changelog
 
+## [3.4.1](https://github.com/Vtxdeo/vtx-protocol/compare/v3.4.0...v3.4.1) (2025-12-31)
+
+
+### Bug Fixes
+
+* **ci:** inject version into Java POM during release ([b77236a](https://github.com/Vtxdeo/vtx-protocol/commit/b77236a08e448055aacd4b0f26058928b99d60d3))
+* **ci:** inject version into Java POM during release ([d5088a5](https://github.com/Vtxdeo/vtx-protocol/commit/d5088a5077723b3ac7e398d9f18368c15195cc31))
+
 ## [3.4.0](https://github.com/Vtxdeo/vtx-protocol/compare/v3.3.0...v3.4.0) (2025-12-31)
 
 
