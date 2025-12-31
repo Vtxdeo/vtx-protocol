@@ -1,5 +1,13 @@
 # Changelog
 
+## [3.3.0](https://github.com/Vtxdeo/vtx-protocol/compare/v3.2.1...v3.3.0) (2025-12-31)
+
+
+### Features
+
+* **wit:** expose `write` method in `stream-io` interface ([4dba0b0](https://github.com/Vtxdeo/vtx-protocol/commit/4dba0b066a15fbfcc7551724794c2c8bd7d550a2))
+* **wit:** expose `write` method in `stream-io` interface ([48ee1b7](https://github.com/Vtxdeo/vtx-protocol/commit/48ee1b7432a11e38aa4d9b3ee04068dcdfa04748))
+
 ## [3.2.1](https://github.com/Vtxdeo/vtx-protocol/compare/v3.2.0...v3.2.1) (2025-12-30)
 
 
