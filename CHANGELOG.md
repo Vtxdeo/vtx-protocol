@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.4.2](https://github.com/Vtxdeo/vtx-protocol/compare/v3.4.1...v3.4.2) (2025-12-31)
+
+
+### Bug Fixes
+
+* **ci:** correct working directory for java version injection ([b94fe25](https://github.com/Vtxdeo/vtx-protocol/commit/b94fe25b94a7d3f78f0fb720aad2e765d90df1d8))
+
 ## [3.4.1](https://github.com/Vtxdeo/vtx-protocol/compare/v3.4.0...v3.4.1) (2025-12-31)
 
 
