@@ -1,5 +1,72 @@
 # Changelog
 
+## [3.4.0](https://github.com/Vtxdeo/vtx-protocol/compare/v3.3.0...v3.4.0) (2025-12-31)
+
+
+### Features
+
+* **api:** introduce event model and runtime context to extend plugin interaction ([e131a62](https://github.com/Vtxdeo/vtx-protocol/commit/e131a62051fdb2cbea0b2a37ef24749e84bd57bc))
+* **api:** introduce event model and runtime context to extend plugin… ([5bf4b8a](https://github.com/Vtxdeo/vtx-protocol/commit/5bf4b8a1370a0fc5bf1d51569c6f0d44dd9eae3e))
+
+## [3.3.0](https://github.com/Vtxdeo/vtx-protocol/compare/v3.2.1...v3.3.0) (2025-12-31)
+
+
+### Features
+
+* **wit:** expose `write` method in `stream-io` interface ([4dba0b0](https://github.com/Vtxdeo/vtx-protocol/commit/4dba0b066a15fbfcc7551724794c2c8bd7d550a2))
+* **wit:** expose `write` method in `stream-io` interface ([48ee1b7](https://github.com/Vtxdeo/vtx-protocol/commit/48ee1b7432a11e38aa4d9b3ee04068dcdfa04748))
+
+## [3.2.1](https://github.com/Vtxdeo/vtx-protocol/compare/v3.2.0...v3.2.1) (2025-12-30)
+
+
+### Bug Fixes
+
+* correct npm install command and add maven distribution config ([b6c1d30](https://github.com/Vtxdeo/vtx-protocol/commit/b6c1d305e71f154ac69d6257c3c2bdd16e691eaa))
+* **wit:** expose ffmpeg interface in plugin world ([ae2a908](https://github.com/Vtxdeo/vtx-protocol/commit/ae2a908006645441332a073ae83597f5519463f7))
+
+## [3.2.0](https://github.com/Vtxdeo/vtx-protocol/compare/v3.1.0...v3.2.0) (2025-12-30)
+
+
+### Features
+
+* **wit:** add ffmpeg interface for media transcoding ([d0e62d7](https://github.com/Vtxdeo/vtx-protocol/commit/d0e62d7623356fb497abb8a870b906612971eb57))
+
+
+### Bug Fixes
+
+* **wit:** correct ffmpeg return type to use buffer resource ([a24c46a](https://github.com/Vtxdeo/vtx-protocol/commit/a24c46ad51fc62c80dbff578576a13f3bccce912))
+
+## [3.1.0](https://github.com/Vtxdeo/vtx-protocol/compare/v3.0.0...v3.1.0) (2025-12-30)
+
+
+### Features
+
+* initialize go protocol package ([44d591b](https://github.com/Vtxdeo/vtx-protocol/commit/44d591b9ce1e52ee55e0979b3330a224b2c060fe))
+* initialize java protocol package ([2212573](https://github.com/Vtxdeo/vtx-protocol/commit/221257347aa69863cb71f1b81bf777861de54bdc))
+
+## [3.0.0](https://github.com/Vtxdeo/vtx-protocol/compare/v2.2.1...v3.0.0) (2025-12-30)
+
+
+### ⚠ BREAKING CHANGES
+
+* The `vtx-protocol` packages no longer provide the `vtx-protocol` CLI tool or generated bindings.
+    * Build Logic: Migrated to `vtx-cli`.
+    * Runtime Bindings: Migrated to language-specific `vtx-sdk`.
+    * The Rust crate now only exposes `WIT_CONTENT` and path helpers.
+
+### Code Refactoring
+
+* purge build logic and transition to pure schema registry ([4dc3876](https://github.com/Vtxdeo/vtx-protocol/commit/4dc3876d2d067cea0cb7ce67a0932c19f813a6c4))
+
+## [2.2.1](https://github.com/Vtxdeo/vtx-protocol/compare/v2.2.0...v2.2.1) (2025-12-30)
+
+
+### Bug Fixes
+
+* **rust:** correct relative path resolution for internal bindgen ([ada9b46](https://github.com/Vtxdeo/vtx-protocol/commit/ada9b46166a062f58c0dae01cb4bed159cbeb353))
+* **rust:** correct relative path resolution for internal bindgen ([1c0c8d8](https://github.com/Vtxdeo/vtx-protocol/commit/1c0c8d899bd9fd9ef772029add392c22a0de34d3))
+* **rust:** make export macro and bindings module public ([3826218](https://github.com/Vtxdeo/vtx-protocol/commit/3826218c49a9f57f1595243c563a4e831decd9bf))
+
 ## [2.2.0](https://github.com/Vtxdeo/vtx-protocol/compare/v2.1.0...v2.2.0) (2025-12-30)
 
 
