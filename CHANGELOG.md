@@ -1,5 +1,13 @@
 # Changelog
 
+## [3.4.0](https://github.com/Vtxdeo/vtx-protocol/compare/v3.3.0...v3.4.0) (2025-12-31)
+
+
+### Features
+
+* **api:** introduce event model and runtime context to extend plugin interaction ([e131a62](https://github.com/Vtxdeo/vtx-protocol/commit/e131a62051fdb2cbea0b2a37ef24749e84bd57bc))
+* **api:** introduce event model and runtime context to extend plugin… ([5bf4b8a](https://github.com/Vtxdeo/vtx-protocol/commit/5bf4b8a1370a0fc5bf1d51569c6f0d44dd9eae3e))
+
 ## [3.3.0](https://github.com/Vtxdeo/vtx-protocol/compare/v3.2.1...v3.3.0) (2025-12-31)
 
 
