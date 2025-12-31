@@ -122,7 +122,7 @@ interface event-bus {
     publish-event: func(
         topic: string,
         payload: string,
-    ) -> result<(), string>;
+    ) -> result<_, string>;
 }
 
 world plugin {
@@ -142,7 +142,7 @@ world plugin {
 
     export handle-event: func(
         event: vtx-event,
-    ) -> result<(), string>;
+    ) -> result<_, string>;
 
     export get-migrations: func() -> list<string>;
 
