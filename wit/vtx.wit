@@ -18,6 +18,8 @@ interface stream-io {
         size: func() -> u64;
 
         read: func(offset: u64, max-bytes: u64) -> list<u8>;
+
+        write: func(data: list<u8>) -> u64;
     }
 
     open-file: func(uuid: string) -> result<buffer, string>;
