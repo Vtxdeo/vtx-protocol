@@ -152,10 +152,10 @@ jobs:
           server-id: github
 
       - name: Inject Version into POM
+        working-directory: packages/java
         run: |
           VERSION=${GITHUB_REF_NAME#v}
           echo "Setting POM version to $VERSION..."
-          # 使用 Maven Versions 插件修改版本，避免手动 sed 可能产生的 XML 格式问题
           mvn versions:set -DnewVersion=$VERSION -DgenerateBackupPoms=false
 
       - name: Inject WIT files
