@@ -72,6 +72,38 @@ interface types {
         body: option<buffer>,
     }
 
+    record http-client-request {
+        method: string,
+        url: string,
+        headers: list<tuple<string, string>>,
+        body: option<buffer>,
+    }
+
+    record http-client-response {
+        status: u16,
+        headers: list<tuple<string, string>>,
+        body: option<buffer>,
+    }
+
+    record http-allow-rule {
+        scheme: string,
+        host: string,
+        port: option<u16>,
+        path: option<string>,
+        methods: option<list<string>>,
+        allow-headers: option<list<string>>,
+        max-request-bytes: option<u64>,
+        max-response-bytes: option<u64>,
+        follow-redirects: option<bool>,
+        redirect-policy: option<string>,
+    }
+
+    record capabilities {
+        subscriptions: list<string>,
+        permissions: list<string>,
+        http: option<list<http-allow-rule>>,
+    }
+
     record manifest {
         id: string,
         name: string,
@@ -125,8 +157,16 @@ interface event-bus {
     ) -> result<_, string>;
 }
 
+interface http-client {
+    use types.{http-client-request, http-client-response};
+
+    request: func(
+        req: http-client-request,
+    ) -> result<http-client-response, string>;
+}
+
 world plugin {
-    use types.{http-request, http-response, manifest};
+    use types.{capabilities, http-request, http-response, manifest};
     use auth-types.{user-context};
     use events.{vtx-event};
 
@@ -135,6 +175,7 @@ world plugin {
     import ffmpeg;
     import context;
     import event-bus;
+    import http-client;
 
     export handle: func(
         req: http-request,
@@ -149,6 +190,8 @@ world plugin {
     export get-manifest: func() -> manifest;
 
     export get-resources: func() -> list<string>;
+
+    export get-capabilities: func() -> capabilities;
 
     export authenticate: func(
         headers: list<tuple<string, string>>,
