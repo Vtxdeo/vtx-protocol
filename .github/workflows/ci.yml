@@ -10,53 +10,86 @@ env:
   CARGO_TERM_COLOR: always
 
 jobs:
-  validate:
-    name: Validate Protocol (Make Check)
+  wit-syntax:
+    name: Check WIT Syntax
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout Source
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+      - name: Install wasm-tools
+        uses: bytecodealliance/actions/wasm-tools/setup@v1
+      - name: Verify Syntax
+        run: make verify-wit
 
+  check-rust:
+    name: Test Rust
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
       - name: Setup Rust
         uses: dtolnay/rust-toolchain@stable
+      - name: Cache Cargo
+        uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: packages/rust
+      - name: Run Tests
+        run: make test-rust
 
-      - name: Setup Node.js (for NPM check)
+  check-npm:
+    name: Test NPM
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: packages/npm/package-lock.json
+      - name: Run Tests
+        working-directory: packages/npm
+        run: |
+          mkdir -p wit
+          cp ../../wit/vtx.wit wit/
 
-      - name: Setup Python (for PyPI check)
+          npm ci
+          npm test
+
+  check-python:
+    name: Test Python
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.10'
+      - name: Run Tests
+        run: make test-python
 
-      - name: Install wasm-tools
-        uses: bytecodealliance/actions/wasm-tools/setup@v1
-
-      - name: Cache Cargo Tools
-        uses: actions/cache@v3
+  check-go:
+    name: Test Go
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Go
+        uses: actions/setup-go@v4
         with:
-          path: |
-            ~/.cargo/bin/
-            ~/.cargo/registry/index/
-            ~/.cargo/registry/cache/
-            ~/.cargo/git/db/
-          key: ${{ runner.os }}-cargo-tools-${{ hashFiles('**/Cargo.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-cargo-tools-
+          go-version: '1.21'
+          cache: true
+          cache-dependency-path: packages/go/go.mod
+      - name: Run Tests
+        run: make test-go
 
-      - name: Install wit-bindgen
-        run: |
-          if ! command -v wit-bindgen &> /dev/null; then
-            echo "Installing wit-bindgen-cli..."
-            cargo install wit-bindgen-cli
-          else
-            echo "wit-bindgen-cli already installed."
-          fi
-
-      - name: Install Python Build Tools
-        run: pip install build componentize-py
-
-      - name: Run All Checks (Makefile)
-        run: make check
+  check-java:
+    name: Test Java
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Java
+        uses: actions/setup-java@v3
+        with:
+          java-version: '11'
+          distribution: 'temurin'
+          cache: 'maven'
+      - name: Run Tests
+        run: make test-java
