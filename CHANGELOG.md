@@ -1,5 +1,13 @@
 # Changelog
 
+## [3.5.2](https://github.com/Vtxdeo/vtx-protocol/compare/v3.5.1...v3.5.2) (2026-01-05)
+
+
+### Bug Fixes
+
+* **npm:** sync WIT file before running integrity tests ([b5c7188](https://github.com/Vtxdeo/vtx-protocol/commit/b5c71886472f5b661f180fc1f94c9eb256b6ff0a))
+* **rust:** verify-wit sync missing in test-rust target ([d61c870](https://github.com/Vtxdeo/vtx-protocol/commit/d61c870458c78f99ead04fc044280b816a72008f))
+
 ## [3.5.1](https://github.com/Vtxdeo/vtx-protocol/compare/v3.5.0...v3.5.1) (2026-01-05)
 
 
