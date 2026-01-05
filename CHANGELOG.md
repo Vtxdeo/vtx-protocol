@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.5.1](https://github.com/Vtxdeo/vtx-protocol/compare/v3.5.0...v3.5.1) (2026-01-05)
+
+
+### Bug Fixes
+
+* **wit:** correct Rust WIT file path ([f680b06](https://github.com/Vtxdeo/vtx-protocol/commit/f680b0634f4ee594cf9ab6dd5ebd5562e42c17ad))
+
 ## [3.5.0](https://github.com/Vtxdeo/vtx-protocol/compare/v3.4.2...v3.5.0) (2026-01-05)
 
 
