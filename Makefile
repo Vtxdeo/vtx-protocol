@@ -1,8 +1,8 @@
 .PHONY: all check verify-wit install-tools clean link-all
-.PHONY: copy-wit-go copy-wit-java copy-wit-python
+.PHONY: copy-wit-go copy-wit-java copy-wit-python copy-wit-rust
 .PHONY: test-all test-rust test-npm test-python test-go test-java
 
-all: copy-wit-go copy-wit-java check
+all: copy-wit-go copy-wit-java copy-wit-rust check
 
 help:
 	@echo "Available commands:"
@@ -33,7 +33,12 @@ copy-wit-python:
 	@mkdir -p packages/python/vtx_protocol/wit
 	@cp wit/vtx.wit packages/python/vtx_protocol/wit/
 
-test-rust:
+copy-wit-rust:
+	@echo "Syncing WIT to Rust package..."
+	@mkdir -p packages/rust/wit
+	@cp wit/vtx.wit packages/rust/wit/vtx.wit
+
+test-rust: copy-wit-rust
 	@echo "-> [Rust] Testing..."
 	@cd packages/rust && cargo test --quiet
 
@@ -60,9 +65,10 @@ install-tools:
 	@if ! command -v wasm-tools > /dev/null; then cargo install wasm-tools; fi
 
 clean:
+	@echo "Cleaning up..."
 	@rm -rf target/
 	@rm -rf packages/python/dist packages/python/*.egg-info packages/python/vtx_protocol/wit
 	@rm -rf packages/npm/*.tgz packages/npm/node_modules
-	@rm -rf packages/rust/target
+	@rm -rf packages/rust/target packages/rust/wit
 	@rm -rf packages/go/wit
 	@rm -rf packages/java/target packages/java/src/main/resources/wit
