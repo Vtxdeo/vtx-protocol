@@ -1,8 +1,8 @@
 .PHONY: all check verify-wit install-tools clean link-all
-.PHONY: copy-wit-go copy-wit-java copy-wit-python copy-wit-rust
+.PHONY: copy-wit-go copy-wit-java copy-wit-python copy-wit-rust copy-wit-npm
 .PHONY: test-all test-rust test-npm test-python test-go test-java
 
-all: copy-wit-go copy-wit-java copy-wit-rust check
+all: copy-wit-go copy-wit-java copy-wit-rust copy-wit-npm check
 
 help:
 	@echo "Available commands:"
@@ -38,11 +38,15 @@ copy-wit-rust:
 	@mkdir -p packages/rust/wit
 	@cp wit/vtx.wit packages/rust/wit/vtx.wit
 
+copy-wit-npm:
+	@mkdir -p packages/npm/wit
+	@cp wit/vtx.wit packages/npm/wit/vtx.wit
+
 test-rust: copy-wit-rust
 	@echo "-> [Rust] Testing..."
 	@cd packages/rust && cargo test --quiet
 
-test-npm:
+test-npm: copy-wit-npm
 	@echo "-> [NPM] Testing..."
 	@cd packages/npm && npm install --silent --no-progress && npm test
 
@@ -68,7 +72,7 @@ clean:
 	@echo "Cleaning up..."
 	@rm -rf target/
 	@rm -rf packages/python/dist packages/python/*.egg-info packages/python/vtx_protocol/wit
-	@rm -rf packages/npm/*.tgz packages/npm/node_modules
+	@rm -rf packages/npm/*.tgz packages/npm/node_modules packages/npm/wit
 	@rm -rf packages/rust/target packages/rust/wit
 	@rm -rf packages/go/wit
 	@rm -rf packages/java/target packages/java/src/main/resources/wit

@@ -48,6 +48,9 @@ jobs:
       - name: Run Tests
         working-directory: packages/npm
         run: |
+          mkdir -p wit
+          cp ../../wit/vtx.wit wit/
+
           npm ci
           npm test
 
