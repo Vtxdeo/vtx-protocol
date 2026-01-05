@@ -10,55 +10,84 @@ env:
   CARGO_TERM_COLOR: always
 
 jobs:
-  validate:
-    name: Validate Protocol (Make Check)
+  wit-syntax:
+    name: Check WIT Syntax
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout Source
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+      - name: Install wasm-tools
+        uses: bytecodealliance/actions/wasm-tools/setup@v1
+      - name: Verify Syntax
+        run: make verify-wit
 
+  check-rust:
+    name: Test Rust
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
       - name: Setup Rust
         uses: dtolnay/rust-toolchain@stable
+      - name: Cache Cargo
+        uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: packages/rust
+      - name: Run Tests
+        run: make test-rust
 
-      - name: Setup Node.js
+  check-npm:
+    name: Test NPM
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: packages/npm/package-lock.json
+      - name: Run Tests
+        working-directory: packages/npm
+        run: |
+          npm ci
+          npm test
 
+  check-python:
+    name: Test Python
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
       - name: Setup Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.10'
+          cache: 'pip'
+      - name: Run Tests
+        run: make test-python
 
+  check-go:
+    name: Test Go
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
       - name: Setup Go
         uses: actions/setup-go@v4
         with:
           go-version: '1.21'
+          cache: true
+          cache-dependency-path: packages/go/go.sum
+      - name: Run Tests
+        run: make test-go
 
+  check-java:
+    name: Test Java
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
       - name: Setup Java
         uses: actions/setup-java@v3
         with:
           java-version: '11'
           distribution: 'temurin'
-
-      - name: Install wasm-tools
-        uses: bytecodealliance/actions/wasm-tools/setup@v1
-
-      - name: Cache Cargo Tools
-        uses: actions/cache@v3
-        with:
-          path: |
-            ~/.cargo/bin/
-            ~/.cargo/registry/index/
-            ~/.cargo/registry/cache/
-            ~/.cargo/git/db/
-          key: ${{ runner.os }}-cargo-tools-${{ hashFiles('**/Cargo.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-cargo-tools-
-
-      - name: Install Python Build Tools
-        run: pip install build componentize-py
-
-      - name: Run All Checks (Makefile)
-        run: make check
+          cache: 'maven'
+      - name: Run Tests
+        run: make test-java
