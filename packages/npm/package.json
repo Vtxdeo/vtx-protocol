@@ -10,11 +10,9 @@
     "wit/"
   ],
   "scripts": {
-    "prepublishOnly": "cp -r ../../wit ./"
+    "prepublishOnly": "cp -r ../../wit ./",
+    "test": "node test.js"
   },
-  "dependencies": {
-
-  },
-  "devDependencies": {
-  }
+  "dependencies": {},
+  "devDependencies": {}
 }

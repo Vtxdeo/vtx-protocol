@@ -21,15 +21,26 @@ jobs:
       - name: Setup Rust
         uses: dtolnay/rust-toolchain@stable
 
-      - name: Setup Node.js (for NPM check)
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
 
-      - name: Setup Python (for PyPI check)
+      - name: Setup Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.10'
+
+      - name: Setup Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: '1.21'
+
+      - name: Setup Java
+        uses: actions/setup-java@v3
+        with:
+          java-version: '11'
+          distribution: 'temurin'
 
       - name: Install wasm-tools
         uses: bytecodealliance/actions/wasm-tools/setup@v1
@@ -45,15 +56,6 @@ jobs:
           key: ${{ runner.os }}-cargo-tools-${{ hashFiles('**/Cargo.lock') }}
           restore-keys: |
             ${{ runner.os }}-cargo-tools-
-
-      - name: Install wit-bindgen
-        run: |
-          if ! command -v wit-bindgen &> /dev/null; then
-            echo "Installing wit-bindgen-cli..."
-            cargo install wit-bindgen-cli
-          else
-            echo "wit-bindgen-cli already installed."
-          fi
 
       - name: Install Python Build Tools
         run: pip install build componentize-py

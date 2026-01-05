@@ -1,15 +1,15 @@
-.PHONY: all check verify-wit install-tools clean link-all copy-wit-go copy-wit-java
+.PHONY: all check verify-wit install-tools clean link-all copy-wit-go copy-wit-java test-all
 
 all: copy-wit-go copy-wit-java check
 
 help:
 	@echo "Available commands:"
-	@echo "  make check           - Validate WIT syntax"
+	@echo "  make check           - Validate WIT syntax and run integrity tests"
 	@echo "  make install-tools   - Install development dependencies"
 	@echo "  make link-all        - Link packages locally for development"
 	@echo "  make clean           - Cleanup artifacts"
 
-check: verify-wit
+check: verify-wit test-all
 
 copy-wit-go:
 	@echo "Syncing WIT to Go package..."
@@ -22,7 +22,7 @@ copy-wit-java:
 	@cp wit/vtx.wit packages/java/src/main/resources/wit/vtx.wit
 
 verify-wit:
-	@echo "[1/1] Validating WIT syntax..."
+	@echo "[1/2] Validating WIT syntax..."
 	@if ! command -v wasm-tools > /dev/null; then echo "Error: wasm-tools not found. Run 'make install-tools'"; exit 1; fi
 	@wasm-tools component wit wit/ > /dev/null
 	@echo "WIT syntax is valid."
@@ -43,10 +43,24 @@ link-all:
 	@cd packages/java && mvn clean install -DskipTests
 	@echo "  -> Java package installed to local Maven repo."
 
+test-all: copy-wit-go copy-wit-java
+	@echo "[2/2] Running integrity tests..."
+	@echo "  -> [Rust] Testing..."
+	@cd packages/rust && cargo test --quiet
+	@echo "  -> [NPM] Testing..."
+	@cd packages/npm && npm install --silent --no-progress && npm test
+	@echo "  -> [Python] Testing..."
+	@cd packages/python && python3 -m unittest discover tests
+	@echo "  -> [Go] Testing..."
+	@cd packages/go && go test -v .
+	@echo "  -> [Java] Testing..."
+	@cd packages/java && mvn test -q
+	@echo "All integrity checks passed."
+
 clean:
 	@echo "Cleaning up..."
 	@rm -rf target/
-	@rm -rf packages/python/dist packages/python/*.egg-info
+	@rm -rf packages/python/dist packages/python/*.egg-info packages/python/vtx_protocol/generated
 	@rm -rf packages/npm/*.tgz packages/npm/node_modules
 	@rm -rf packages/rust/target
 	@rm -rf packages/go/wit
