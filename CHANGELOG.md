@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.5.0](https://github.com/Vtxdeo/vtx-protocol/compare/v3.4.2...v3.5.0) (2026-01-05)
+
+
+### Features
+
+* **protocol:** extend WIT and rust bindings ([916e8b8](https://github.com/Vtxdeo/vtx-protocol/commit/916e8b84da41e56a8f059c354584b4fa811d8257))
+
 ## [3.4.2](https://github.com/Vtxdeo/vtx-protocol/compare/v3.4.1...v3.4.2) (2025-12-31)
 
 
