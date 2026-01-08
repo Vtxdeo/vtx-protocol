@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.6.0](https://github.com/Vtxdeo/vtx-protocol/compare/v3.5.2...v3.6.0) (2026-01-08)
+
+
+### Features
+
+* **protocol:** switch ffmpeg params to transcode-profile + ffmpeg-option ([255a471](https://github.com/Vtxdeo/vtx-protocol/commit/255a471406f9cdadcbb5dfaa8e24ae643bfdfc52))
+
 ## [3.5.2](https://github.com/Vtxdeo/vtx-protocol/compare/v3.5.1...v3.5.2) (2026-01-05)
 
 
