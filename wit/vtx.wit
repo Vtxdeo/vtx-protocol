@@ -116,14 +116,19 @@ interface types {
 interface ffmpeg {
     use stream-io.{buffer};
 
-    record transcode-params {
+    record ffmpeg-option {
+        key: string,
+        value: option<string>,
+    }
+
+    record transcode-profile {
         profile: string,
         input-id: string,
-        args: list<string>,
+        options: list<ffmpeg-option>,
     }
 
     execute: func(
-        params: transcode-params,
+        params: transcode-profile,
     ) -> result<buffer, string>;
 }
 
