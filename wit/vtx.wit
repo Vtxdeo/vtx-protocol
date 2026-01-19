@@ -52,7 +52,7 @@ interface vtx-vfs {
         uri: string,
     ) -> result<vtx-object-meta, string>;
 
-    list: func(
+    list-objects: func(
         prefix-uri: string,
     ) -> result<list<vtx-object-meta>, string>;
 
