@@ -191,7 +191,7 @@ interface vtx-http-client {
     ) -> result<http-client-response, string>;
 }
 
-world plugin {
+world vtx-plugin {
     use vtx-types.{capabilities, http-request, http-response, manifest};
     use vtx-auth-types.{user-context};
     use vtx-events.{vtx-event};
