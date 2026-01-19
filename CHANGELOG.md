@@ -1,5 +1,17 @@
 # Changelog
 
+## [5.0.0](https://github.com/Vtxdeo/vtx-protocol/compare/v4.0.0...v5.0.0) (2026-01-19)
+
+
+### ⚠ BREAKING CHANGES
+
+* **api:** The WIT world has been renamed from `plugin` to `vtx-plugin`. All consumers must update their world references and regenerated bindings.
+
+### Bug Fixes
+
+* **api:** rename world from plugin to vtx-plugin ([913f32e](https://github.com/Vtxdeo/vtx-protocol/commit/913f32e9c2142f7ad34184ad86c5ace4cc9a09bf))
+* **api:** rename world from plugin to vtx-plugin ([540efba](https://github.com/Vtxdeo/vtx-protocol/commit/540efbac71f009a683e9c04ee94810adaa42fba2))
+
 ## [4.0.0](https://github.com/Vtxdeo/vtx-protocol/compare/v3.6.0...v4.0.0) (2026-01-19)
 
 
