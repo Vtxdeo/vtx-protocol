@@ -101,7 +101,7 @@ jobs:
           
           echo "Generating bindings..."
           mkdir -p packages/python/vtx_protocol/generated
-          componentize-py --wit-path wit --world plugin bindings packages/python/vtx_protocol/generated
+          componentize-py --wit-path wit --world vtx-plugin bindings packages/python/vtx_protocol/generated
 
       - name: Build Wheel and Sdist
         working-directory: packages/python
