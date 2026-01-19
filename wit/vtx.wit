@@ -1,6 +1,6 @@
 package vtx:api@1.2.6;
 
-interface sql {
+interface vtx-sql {
     variant db-value {
         text(string),
         integer(s64),
@@ -19,7 +19,7 @@ interface sql {
     ) -> result<string, string>;
 }
 
-interface stream-io {
+interface vtx-vfs {
     resource buffer {
         size: func() -> u64;
 
@@ -33,16 +33,37 @@ interface stream-io {
         ) -> u64;
     }
 
-    open-file: func(
-        uuid: string,
-    ) -> result<buffer, string>;
+    record vtx-object-meta {
+        uri: string,
+        size: u64,
+        last-modified: option<s64>,
+        etag: option<string>,
+    }
 
     create-memory-buffer: func(
         data: list<u8>,
     ) -> buffer;
+
+    open-uri: func(
+        uri: string,
+    ) -> result<buffer, string>;
+
+    head: func(
+        uri: string,
+    ) -> result<vtx-object-meta, string>;
+
+    list: func(
+        prefix-uri: string,
+    ) -> result<list<vtx-object-meta>, string>;
+
+    read-range: func(
+        uri: string,
+        offset: u64,
+        len: u64,
+    ) -> result<list<u8>, string>;
 }
 
-interface auth-types {
+interface vtx-auth-types {
     record user-context {
         user-id: string,
         username: string,
@@ -57,9 +78,9 @@ interface auth-types {
     }
 }
 
-interface types {
-    use stream-io.{buffer};
-    use auth-types.{user-context};
+interface vtx-types {
+    use vtx-vfs.{buffer};
+    use vtx-auth-types.{user-context};
 
     record http-request {
         method: string,
@@ -113,21 +134,26 @@ interface types {
     }
 }
 
-interface ffmpeg {
-    use stream-io.{buffer};
+interface vtx-ffmpeg {
+    use vtx-vfs.{buffer};
 
-    record transcode-params {
+    record ffmpeg-option {
+        key: string,
+        value: option<string>,
+    }
+
+    record transcode-profile {
         profile: string,
         input-id: string,
-        args: list<string>,
+        options: list<ffmpeg-option>,
     }
 
     execute: func(
-        params: transcode-params,
+        params: transcode-profile,
     ) -> result<buffer, string>;
 }
 
-interface events {
+interface vtx-events {
     record event-context {
         user-id: option<string>,
         username: option<string>,
@@ -144,21 +170,21 @@ interface events {
     }
 }
 
-interface context {
-    use auth-types.{current-user};
+interface vtx-context {
+    use vtx-auth-types.{current-user};
 
     get-current-user: func() -> option<current-user>;
 }
 
-interface event-bus {
+interface vtx-event-bus {
     publish-event: func(
         topic: string,
         payload: string,
     ) -> result<_, string>;
 }
 
-interface http-client {
-    use types.{http-client-request, http-client-response};
+interface vtx-http-client {
+    use vtx-types.{http-client-request, http-client-response};
 
     request: func(
         req: http-client-request,
@@ -166,16 +192,16 @@ interface http-client {
 }
 
 world plugin {
-    use types.{capabilities, http-request, http-response, manifest};
-    use auth-types.{user-context};
-    use events.{vtx-event};
+    use vtx-types.{capabilities, http-request, http-response, manifest};
+    use vtx-auth-types.{user-context};
+    use vtx-events.{vtx-event};
 
-    import stream-io;
-    import sql;
-    import ffmpeg;
-    import context;
-    import event-bus;
-    import http-client;
+    import vtx-vfs;
+    import vtx-sql;
+    import vtx-ffmpeg;
+    import vtx-context;
+    import vtx-event-bus;
+    import vtx-http-client;
 
     export handle: func(
         req: http-request,
