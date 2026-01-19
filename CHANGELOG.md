@@ -1,5 +1,22 @@
 # Changelog
 
+## [4.0.0](https://github.com/Vtxdeo/vtx-protocol/compare/v3.6.0...v4.0.0) (2026-01-19)
+
+
+### ⚠ BREAKING CHANGES
+
+* **api:** The legacy `stream-io` interface has been removed. Plugins and components must migrate to `vtx-vfs` and update all WIT imports to the new `vtx-*` namespaced interfaces.
+
+### Features
+
+* **api:** replace stream-io with vtx-vfs and standardize vtx-* inter… ([bf8a6f5](https://github.com/Vtxdeo/vtx-protocol/commit/bf8a6f5eac4fec6586901015ee5cc8a0a23028d6))
+* **api:** replace stream-io with vtx-vfs and standardize vtx-* interfaces ([2f9cd11](https://github.com/Vtxdeo/vtx-protocol/commit/2f9cd11687f23907a3f719663d924ceed43d9c1c))
+
+
+### Bug Fixes
+
+* **api:** rename vtx-vfs list to list-objects to avoid WIT keyword ([d287c4d](https://github.com/Vtxdeo/vtx-protocol/commit/d287c4d6234019b1bcc1a754623055ffb818b290))
+
 ## [3.6.0](https://github.com/Vtxdeo/vtx-protocol/compare/v3.5.2...v3.6.0) (2026-01-08)
 
 
